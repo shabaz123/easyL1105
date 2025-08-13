@@ -20,6 +20,8 @@ Next, follow the setting-up steps below depending on whether you're using Keil u
 ### Setting up to use Keil
 **NOTE:** If the TI MSPM0 SDK folder is *not* precisely called **mspm0_sdk_2_05_01_00** then you'll need to edit the **app_L1105.uvprojx** file (search-and-replace all instances of mspm0_sdk_2_05_01_00 and replace with what you've got).
 
+Download and install [Keil uVision](https://www.keil.arm.com/mdk-community/) (community edition). 
+
 Next, launch uVision and go to **Project->Manage->PackInstaller**, wait for it to refresh over the Internet, and then in the left pane, navigate to **TexasInstruments->MSPM0Series->MSPM0L110X->MSPM0L1105** and click on the name, and then notice that in the right pane, at the top, in the **Pack** column, in the **Device Specific** section, the first entry will be **TexasInstruments:MSPM0L11XX_L13XX_DFP**. In the **Action** column, click on **Install**.
 
 ### Setting up to use ARM GCC
