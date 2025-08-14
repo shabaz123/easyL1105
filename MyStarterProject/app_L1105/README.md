@@ -25,7 +25,7 @@ If you're using Windows, download and install the [TI MSPM0 SDK](https://www.ti.
 
 If you're using Linux or Mac, the SDK is obtained using a git clone command discussed later.
 
-Next, follow the setting-up steps below depending on whether you're using Keil uVision or GCC.
+Next, follow the setting-up steps below depending on whether you're using Keil uVision or ARM GCC.
 
 ### Setting up to use Keil
 **NOTE:** If the TI MSPM0 SDK folder is *not* precisely called **mspm0_sdk_2_05_01_00** then you'll need to edit the **app_L1105.uvprojx** file (search-and-replace all instances of mspm0_sdk_2_05_01_00 and replace with what you've got).
