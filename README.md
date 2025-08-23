@@ -10,6 +10,13 @@ The repository also contains Gerber files for a smaller miniL1105 board:
 
 There is also an example starter project, which can be built with Keil or GCC.
 
+# Circuit Diagrams
+## easyL1105
+<img width="100%" align="left" src="easyl1105-sch-jpeg-rev1.jpg">
+
+## miniL1105
+<img width="100%" align="left" src="minil1105-sch-jpeg-rev1.jpg">
+
 # Note
 The Rev 1 easyL1105 and miniL1105 boards have one known bug; they are missing a 47k pull-up resistor from the *RST pin (pin 6 on the microcontroller) to +3.3V. 
 
