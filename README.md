@@ -23,7 +23,7 @@ The Rev 1 easyL1105 and miniL1105 boards have one known bug; they are missing a 
 The fix is easy, it is possible to patch a resistor onto the underside of the PCB, using an 0805 sized resistor and a short length of 30 AWG Kynar wire.
 
 # Example Project
-Go into the MyStarterProject folder, to see an example project. Go into the app_L1105 folder within there, and you'll find notes explaining how to set up your PC and how to build the code.
+Go into the **MyStarterProject** folder, to see an example project. Go into the **app_L1105** folder within there, and you'll find notes explaining how to set up your PC and how to build the code.
 
 # Uploading your Application Firmware to the Microcontroller
 Once you have built the example project, you'll want to upload it into the microcontroller. The easyL1105 board has a built-in USB-to-UART adapter. The miniL1105 board will require an external 3.3V logic level USB-UART adapter.
@@ -81,6 +81,6 @@ Initially it may take a few seconds (or longer), but eventually you should see o
 [21/08/2025, 23:56:20] [INFO] CORTEX_M0P: [80] [01] [00] [40] [E2] [51] [21] [5B]
 ```
 
-UniFlash may also report an error (some versions of it are buggy) but if it went well, your board should immediately begin execution of the firmware, and flash LEDs if you're using the MyStarterProject app_L1105 on the easyL1105 board.
+UniFlash may also report an error but still work (some versions of it are buggy like that) and if it went well, your board should immediately begin execution of the firmware, and flash LEDs if you're using the MyStarterProject app_L1105 on the easyL1105 board.
 
 If UniFlash output doesn't look similar to that shown above, repeat the steps starting from the **Set Board to Bootloader Mode** section, in case it's a UniFlash issue.
