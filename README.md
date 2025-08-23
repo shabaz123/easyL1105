@@ -17,9 +17,10 @@ There is also an example starter project, which can be built with Keil or GCC.
 ## miniL1105
 <img width="100%" align="left" src="minil1105-sch-jpeg-rev1.jpg">
 
-# Note
+## Note
 The Rev 1 easyL1105 and miniL1105 boards have one known bug; they are missing a 47k pull-up resistor from the *RST pin (pin 6 on the microcontroller) to +3.3V. 
 
 The fix is easy, it is possible to patch a resistor onto the underside of the PCB, using an 0805 sized resistor and a short length of 30 AWG Kynar wire.
 
-
+# Example Project
+Go into the MyStarterProject folder, to see an example project. Go into the app_L1105 folder, and you'll find notes explaining how to set up your PC and how to build the code.
