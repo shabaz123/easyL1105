@@ -23,7 +23,7 @@ The Rev 1 easyL1105 and miniL1105 boards have one known bug; they are missing a 
 The fix is easy, it is possible to patch a resistor onto the underside of the PCB, using an 0805 sized resistor and a short length of 30 AWG Kynar wire.
 
 # Example Project
-Go into the **MyStarterProject** folder, to see an example project. Go into the **app_L1105** folder within there, and you'll find notes explaining how to set up your PC and how to build the code.
+Go into the [**MyStarterProject**](https://github.com/shabaz123/easyL1105/tree/main/MyStarterProject) folder, to see an example project. Go into the **app_L1105** folder within there, and you'll find notes explaining how to set up your PC and how to build the code.
 
 # Uploading your Application Firmware to the Microcontroller
 Once you have built the example project, you'll want to upload it into the microcontroller. The easyL1105 board has a built-in USB-to-UART adapter. The miniL1105 board will require an external 3.3V logic level USB-UART adapter.
