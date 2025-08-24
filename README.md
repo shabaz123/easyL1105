@@ -38,11 +38,17 @@ Attach the board using the USB cable to your PC, and check what port number is a
 ## Install and Run UniFlash
 Download and install TI UniFlash. Run it, and at the top-right, set **Setting:Manual**. Next, under **Device**, click on **Category:MSP** and then type **MSPM0L110x** and you'll see a selection titled **MSPM0L110X(BOOTLOADER) Serial**. Click to select that.
 
-Next, click on **Start**. You'll see a set of boxes appear. Click the empty text entry box to the right of **Application Image 1** and in the file browser that appears, browse to your built firmware file, which will have a **.hex** suffix, for instance, **app_L1105.hex**.
+Next, click on **Start**. 
+
+<img width="100%" align="left" src="uniflash-screenshot-1.jpg">
+
+You'll see a set of boxes appear. Click the empty text entry box to the right of **Application Image 1** and in the file browser that appears, browse to your built firmware file, which will have a **.hex** suffix, for instance, **app_L1105.hex**.
 
 **Don't** press the Load Image button that appears just yet!
 
 Instead, scroll further down, and you'll see a random COM port selected. In that box, type the correct COM port.
+
+<img width="100%" align="left" src="uniflash-screenshot-2.jpg">
 
 ## Set Board to Bootloader Mode
 Hold down the **BOOT** button on the board, press and release the **RESET** button, then release the **BOOT** button.
