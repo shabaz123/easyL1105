@@ -112,11 +112,11 @@ C:\ti\sysconfig_1.24.2\sysconfig_gui.bat --product "C:/ti/mspm0_sdk_2_05_01_00/.
 
 When it starts up, you have to, very importantly, click on Board, so that a green check-mark appears against it. 
 
-<img width="100%" align="left" src="sysconfig-board.jpg">
+<img width="100%" align="left" src="../../sysconfig-board.jpg">
 
 Then, you can click on any integrated peripheral further below it, for instance GPIO as shown in the screenshot below, and configure as follows if you want an output pin. Notice on the right side, there are two files listed called ti_msp_dl_config.c and ti_msp_dl_config.h and those will contain the code you need. Click on the all files icon and save all to any folder, then you can explore those two files.
 
-<img width="100%" align="left" src="sysconfig-gpio.jpg">
+<img width="100%" align="left" src="../../sysconfig-gpio.jpg">
 
 From the .c and .h files, it is possible to figure out what to put in the main code. Note that this isn't the way you're supposed to use those files, but for the purposes of this quick example, it will do for now.
 
