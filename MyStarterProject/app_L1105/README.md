@@ -104,7 +104,7 @@ You'll see a **makefile** in there. Simply type: **make** and the code should bu
 ## Making use of Integrated Peripherals using TI SysConfig
 Although there is [DriverLib documentation](https://software-dl.ti.com/msp430/esd/MSPM0-SDK/latest/docs/english/driverlib/mspm0l11xx_l13xx_api_guide/html/modules.html) it's useful to auto-generate code, either to directly use, or to inspect and reuse as required, using a tool called [SysConfig](https://www.ti.com/tool/SYSCONFIG).
 
-Once you have installed, it, start it up from the command line (for instance, Windows Powershell), using the following syntax:
+Once you have installed SysConfig, start it up from the command line (for instance, using Windows Powershell), using the following syntax:
 
 ```
 C:\ti\sysconfig_1.24.2\sysconfig_gui.bat --product "C:/ti/mspm0_sdk_2_05_01_00/.metadata/product.json"  --device "MSPM0L1105" --package "VSSOP-28(DGS28)" --compiler gcc
