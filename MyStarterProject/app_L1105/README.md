@@ -101,6 +101,25 @@ Navigate to the **app_L1105** folder, and within that, go to the **GCC** folder.
 
 You'll see a **makefile** in there. Simply type: **make** and the code should build. To remove the outputs, type: **make clean**
 
+## Making use of Integrated Peripherals using TI SysConfig
+Although there is [DriverLib documentation](https://software-dl.ti.com/msp430/esd/MSPM0-SDK/latest/docs/english/driverlib/mspm0l11xx_l13xx_api_guide/html/modules.html) it's useful to auto-generate code, either to directly use, or to inspect and reuse as required, using a tool called [SysConfig](https://www.ti.com/tool/SYSCONFIG).
+
+Once you have installed, it, start it up from the command line (for instance, Windows Powershell), using the following syntax:
+
+```
+C:\ti\sysconfig_1.24.2\sysconfig_gui.bat --product "C:/ti/mspm0_sdk_2_05_01_00/.metadata/product.json"  --device "MSPM0L1105" --package "VSSOP-28(DGS28)" --compiler gcc
+```
+
+When it starts up, you have to, very importantly, click on Board, so that a green check-mark appears against it. 
+
+<img width="100%" align="left" src="sysconfig-board.jpg">
+
+Then, you can click on any integrated peripheral further below it, for instance GPIO as shown in the screenshot below, and configure as follows if you want an output pin. Notice on the right side, there are two files listed called ti_msp_dl_config.c and ti_msp_dl_config.h and those will contain the code you need. Click on the all files icon and save all to any folder, then you can explore those two files.
+
+<img width="100%" align="left" src="sysconfig-gpio.jpg">
+
+From the .c and .h files, it is possible to figure out what to put in the main code. Note that this isn't the way you're supposed to use those files, but for the purposes of this quick example, it will do for now.
+
 ## Modifying Stack Allocations
 If you're using Keil, open the startup_mspm0l110x_uvision.s file, and there will be an entry there similar to:
 
