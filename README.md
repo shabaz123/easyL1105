@@ -94,3 +94,7 @@ Initially it may take a few seconds (or longer), but eventually you should see o
 UniFlash may also report an error but still work (some versions of it are buggy like that) and if it went well, your board should immediately begin execution of the firmware, and flash LEDs if you're using the MyStarterProject app_L1105 on the easyL1105 board.
 
 If UniFlash output doesn't look similar to that shown above, repeat the steps starting from the **Set Board to Bootloader Mode** section, in case it's a UniFlash issue.
+
+# Non-UniFlash Option: Python Programmer
+If you wish to use Python to program the chip rather than UniFlash, then see [the MSPM0 Programmer Python](https://github.com/shabaz123/easyL1105/tree/main/mspm0_programmer/python) folder.
+
