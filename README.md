@@ -22,6 +22,40 @@ The Rev 1 easyL1105 and miniL1105 boards have one known bug; they are missing a 
 
 The fix is easy, it is possible to patch a resistor onto the underside of the PCB, using an 0805 sized resistor and a short length of 30 AWG Kynar wire.
 
+# easyL1105 Parts List
+There is a PDF version of the parts list, easyL1105-rev1-parts-list.pdf reproduced here:
+
+| REF                | QTY | VALUE             | DESCRIPTION                                       |
+| ------------------ | --- | ----------------- | ------------------------------------------------- |
+| C1                 | 1   | 0.47u             | Tant Cap Case A example: T491A474M025AT           |
+| C2, C5             | 2   | 10n               | 0805 MLCC Capacitor                               |
+| C3,C6,C7           | 3   | 100n              | 0805 MLCC Capacitor                               |
+| C4,C8,C9           | 3   | 10u 16V           | Tant Cap Case B example: TAJB106K016RNJ           |
+| D1                 | 1   | GREEN             | LED GREEN 0603                                    |
+| D2                 | 1   | BLUE              | LED BLUE 0603                                     |
+| D3                 | 1   | 1N4001W           | Diode SOD-123                                     |
+| D4                 | 1   | PWR               | LED RED 0603                                      |
+| J1, J2, J5, J6, J7 | 1   | Header SIL        | Pin Header 2.54mm SIL 40-way (snapped to fit)     |
+| J3                 | 1   | 2x5 DIL           | Pin Header 2.54mm DIL 10-way (2x5 way)            |
+| J4                 | 1   | USB4085           | Socket GCT USB4805 / XUNPU USB-B10-BRW            |
+| R1                 | 1   | 100k 0.1%         | 0805 Resistor 0.1%                                |
+| R2,R3,R12          | 3   | 100R              | 0805 Resistor                                     |
+| R4,R5,R7           | 3   | 100k              | 0805 Resistor                                     |
+| R8,R9,R16          | 3   | 10k               | 0805 Resistor                                     |
+| R10                | 1   | 220R              | 0805 Resistor                                     |
+| R11                | 1   | 820R              | 0805 Resistor                                     |
+| R19                | 1   | 1k                | 0805 Resistor                                     |
+| R13                | 1   | 1M                | 0805 Resistor                                     |
+| R14,R15            | 2   | 5.1k              | 0805 Resistor                                     |
+| SW1, 2, 3          | 3   | Tact Switch       | Tact Button 4x3mm GCT SWT0110                     |
+| U1                 | 1   | MSPM0L1105TDGS28R | TI MSPM0 L1105 VSSOP28 DGS                        |
+| U2                 | 1   | CH340K            | WCH USB UART IC SSOP-10-1EP                       |
+| U3                 | 1   | SRV05-4           | ESD Diode Array SOT23-6                           |
+| U4                 | 1   | MIC5209-3.3YS     | LDO 3.3V SOT-223                                  |
+| RFIX1              | 1   | 47k               | 0805 Resistor, patched between \*RST and 3.3V     |
+| n/a                | 5   | Shorting Jumpers  | Jumpers 2-pin 2.54mm (Red, Black, Green x2, Blue) |
+
+
 # Example Project
 Go into the [**MyStarterProject**](https://github.com/shabaz123/easyL1105/tree/main/MyStarterProject) folder to see an example project called **app_L1105** (and if you plan to use GCC on Linux, then you need the **set_env.sh** file that is also in the MyStarterProject folder; save it to any convenient location). 
 
