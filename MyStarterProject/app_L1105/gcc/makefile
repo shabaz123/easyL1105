@@ -1,21 +1,15 @@
-MSPM0_SDK_INSTALL_DIR ?= $(abspath ../../../../../..)
-
-ifeq ($(OS),Windows_NT)
-    IMPORT_FILE := imports.mak.windows
+ifeq ("$(SHELL)","sh.exe")
+# for Windows/DOS shell
+    RM     = del
+    RMDIR  = -rmdir /S /Q
+    DEVNULL = NUL
+    ECHOBLANKLINE = @cmd /c echo.
 else
-    UNAME_S := $(shell uname -s 2>/dev/null)
-    ifeq ($(UNAME_S),Linux)
-        IMPORT_FILE := imports.mak.linux
-    else ifeq ($(UNAME_S),Darwin)
-        IMPORT_FILE := imports.mak.macos
-    else
-        IMPORT_FILE := imports.mak
-    endif
-endif
-ifneq ($(wildcard $(MSPM0_SDK_INSTALL_DIR)/$(IMPORT_FILE)),)
-    include $(MSPM0_SDK_INSTALL_DIR)/$(IMPORT_FILE)
-else
-    include $(MSPM0_SDK_INSTALL_DIR)/imports.mak
+# for Linux-like shells
+    RM     = rm -f
+    RMDIR  = rm -rf
+    DEVNULL = /dev/null
+    ECHOBLANKLINE = echo
 endif
 
 CC = "$(GCC_ARMCOMPILER_MSP)/bin/arm-none-eabi-gcc"
