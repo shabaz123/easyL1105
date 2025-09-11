@@ -18,9 +18,11 @@ There is also an example starter project, which can be built with Keil or GCC.
 <img width="100%" align="left" src="minil1105-sch-jpeg-rev1.jpg">
 
 ## Note
-The Rev 1 easyL1105 and miniL1105 boards have one known bug; they are missing a 47k pull-up resistor from the *RST pin (pin 6 on the microcontroller) to +3.3V. 
+The Rev 1 easyL1105 and miniL1105 boards have a known bug; they are missing a 47k pull-up resistor from the *RST pin (pin 6 on the microcontroller) to +3.3V. 
 
 The fix is easy, it is possible to patch a resistor onto the underside of the PCB, using an 0805 sized resistor and a short length of 30 AWG Kynar wire.
+
+The Rev 1 board allocates pins PA17(TXD) and PA18(RXD) for UART0, but since PA18(RXD) also has a BOOT function for enabling bootloader mode, there is the unfortunate situation that if the "BSL/UART0" board jumpers are configured to direct UART0 to the USB-UART chip, the pin is in BOOT mode during reset. One workaround for now is to not fit the rightmost jumper (rightmost when the "EasyL1105" and "BSL/UART0" text is the correct way up) during board reboot or power-up, and then fit it later. The better fix will be in Rev 2, where a different GPIO pin will be used in place of PA18(RXD), so that it doesn't clash with the BOOT function
 
 # easyL1105 Parts List
 There is a PDF version of the parts list, easyL1105-rev1-parts-list.pdf reproduced here:
