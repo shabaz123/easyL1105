@@ -360,8 +360,9 @@ def bootload_interim_array():
     for i in range(len(erase_block_list)):
         addr = erase_block_list[i]
         length = 1024  # Length is always 1024 bytes for each erase operation
+        end_addr = addr + length - 1
         print(f"Erasing Flash block: Address {addr:#010x}, length {length} bytes")
-        build_packet(0x80, 0x23, addr.to_bytes(4, 'little') + length.to_bytes(4, 'little'))
+        build_packet(0x80, 0x23, addr.to_bytes(4, 'little') + end_addr.to_bytes(4, 'little'))
         # ser.write(data_packet)  # Send the data packet
         # print the packet for debugging
         print(f"Sending Flash Range Erase command: {data_packet.hex()}")
@@ -771,4 +772,5 @@ def main():
 # Run the main function
 if __name__ == "__main__":
     main()
+
 
