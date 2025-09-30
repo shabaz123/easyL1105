@@ -95,141 +95,118 @@ def print_banner():
 
 def hexparse(hex_file):
     """Read an Intel HEX file to memory and parse it into address and data lists."""
-    # create a list to hold address and length values (32-bit address, 32-bit length, little-endian)
     global addr_len_list
     global data_list
-    addr_len_list= []
-    # we create a list of bytearrays to hold the data for each address range in addr_len_list
+
+    addr_len_list = []
     data_list = []
-    cur_data_bytes = bytearray()  # Current data bytes for the current address range
-    max_data_len = 1024  # Maximum data length for each address range, divisible by 8 bytes
-    tot_data_len = 0  # Total data length across all address ranges
-    next_contig_addr = 0xbaadbeef  # Next contiguous address, initialized to an unexpected value
-    upper_addr_word = 0x0000  # Upper address word, initialized to 0x0000
-    # open the hex file and read each line
+
+    cur_data_bytes = bytearray()
+    max_data_len = 1024
+    tot_data_len = 0
+    upper_addr_word = 0x0000
+
+    current_range_start = None  # track the start address for the current contiguous range
+
+    def flush_current():
+        """Flush cur_data_bytes into data_list/addr_len_list using 1024-byte chunks + final partial."""
+        nonlocal cur_data_bytes, current_range_start, tot_data_len
+        if current_range_start is None or len(cur_data_bytes) == 0:
+            return
+        start = current_range_start
+        buf = cur_data_bytes
+        # full 1024-byte chunks
+        while len(buf) >= max_data_len:
+            data_list.append(bytearray(buf[:max_data_len]))
+            addr_len_list.append((start, max_data_len))
+            tot_data_len += max_data_len
+            buf = buf[max_data_len:]
+            start += max_data_len
+        # final partial (if any)
+        if len(buf) > 0:
+            data_list.append(bytearray(buf))
+            addr_len_list.append((start, len(buf)))
+            tot_data_len += len(buf)
+        # reset
+        cur_data_bytes = bytearray()
+        current_range_start = None
+
     with open(hex_file, 'r') as f:
         for line_num, line in enumerate(f, start=1):
             line = line.strip()
             if not line or not line.startswith(':'):
                 print(f"line # {line_num}: Skipping content: '{line}'")
-                continue  # Skip empty lines and comment lines
-            # Parse the Intel HEX line
+                continue
             print(f"processing line {line_num}: {line}")
             try:
-                byte_count = int(line[1:3], 16)  # Byte count is in bytes 1-2 (2 hex digits)
-                addr = int(line[3:7], 16)  # 16-bit address is in bytes 3-6 (4 hex digits)
-                record_type = int(line[7:9], 16)  # Record type is in bytes 7-8 (2 hex digits)
-                data = bytes.fromhex(line[9:-2])  # Data is from byte 9 to the end, excluding CRC
+                byte_count  = int(line[1:3], 16)
+                addr16      = int(line[3:7], 16)
+                record_type = int(line[7:9], 16)
+                data        = bytes.fromhex(line[9:9 + 2*byte_count])
             except ValueError as e:
                 print(f"Error parsing line '{line}': {e}")
-            if record_type == 4: # Extended Linear Address Record (0x04) - upper address word
-                upper_addr_word = int.from_bytes(data, 'big') << 16 # Shift left by 16 bits to get the upper address word
-            elif record_type == 0:  # Data Record (0x00)
-                addr32 = (upper_addr_word | addr) & 0xFFFFFFFF  # Combine upper and lower address
-                if addr32 != next_contig_addr:  
-                    # if we have cur_data_bytes, we need to store it in the data_list
-                    if cur_data_bytes:
-                        # Store the data bytes so far in the data_list
-                        data_list.append(cur_data_bytes)
-                        # Update the length for the previous address range
-                        addr_len_list[-1] = (addr_len_list[-1][0], len(cur_data_bytes))
-                        tot_data_len += len(cur_data_bytes)
-                        # now handle the new non-contiguous address
-                        # append the address, we will update the length later
-                        if (len(addr_len_list) > 0) and (addr_len_list[-1][1] == 0):
-                            # if the last address length is 0, we can just update it with the new address
-                            addr_len_list[-1] = (addr32, 0)
-                        else:
-                            addr_len_list.append((addr32, 0))
-                        cur_data_bytes = bytearray()
-                    else:
-                        # if we have no cur_data_bytes, we can just append the address and length 0
-                        # (we will update the length later)
-                        if (len(addr_len_list) > 0) and (addr_len_list[-1][1] == 0):
-                            # if the last address length is 0, we can just update it with the new address
-                            addr_len_list[-1] = (addr32, 0)
-                        else:
-                            addr_len_list.append((addr32, 0))
-                # append the new data bytes to cur_data_bytes
+                continue  # keep going
+            if record_type == 4:
+                # Extended Linear Address
+                upper_addr_word = int.from_bytes(data, 'big') << 16
+            elif record_type == 0:
+                # Data record
+                addr32 = (upper_addr_word | addr16) & 0xFFFFFFFF
+                # Start new range or check contiguity
+                if current_range_start is None:
+                    current_range_start = addr32
+                elif addr32 != (current_range_start + len(cur_data_bytes)):
+                    # non-contiguous -> flush current range first
+                    flush_current()
+                    current_range_start = addr32
+                # append incoming bytes
                 cur_data_bytes.extend(data)
-                # update the contiguous address
-                next_contig_addr = addr32 + len(data)
+                # Split out any full 1024-byte chunks immediately
+                while len(cur_data_bytes) >= max_data_len:
+                    data_list.append(bytearray(cur_data_bytes[:max_data_len]))
+                    addr_len_list.append((current_range_start, max_data_len))
+                    tot_data_len += max_data_len
+                    cur_data_bytes = cur_data_bytes[max_data_len:]
+                    current_range_start += max_data_len
+            elif record_type == 1:
+                print(f"End of file record (0x01) on line {line_num}, finished reading .hex file")
+                break
             else:
-                # for all other record types, we save any current data bytes
-                if len(cur_data_bytes) > 0:
-                    # Store the data bytes so far in the data_list
-                    data_list.append(cur_data_bytes)
-                    # Update the length for the previous address range
-                    addr_len_list[-1] = (addr_len_list[-1][0], len(cur_data_bytes))
-                    tot_data_len += len(cur_data_bytes)
-                    cur_data_bytes = bytearray()
-                if (record_type == 3) | (record_type == 5):
-                    # End of file record (0x01), Extended Linear Address Record (0x04) or Extended Linear Address Record (0x05)
-                    # We can ignore these for our purposes
-                    continue
-                elif record_type == 1:
-                    print(f"End of file record (0x01) on line {line_num}, finished reading .hex file")
-                    break
-                else:
-                    print(f"**** WARNING Unknown record type {record_type} encountered, skipping line {line_num}: {line} ****")
-                    continue
-            # if we have reached the maximum data length, we need to store the data bytes
-            if len(cur_data_bytes) >= max_data_len:
-                # Store the max_data_len of bytes, and retain the remaining bytes for the next address range
-                data_list.append(cur_data_bytes[:max_data_len])
-                # Update the length for the previous address range
-                addr_len_list[-1] = (addr_len_list[-1][0], max_data_len)
-                tot_data_len += max_data_len
-                cur_data_bytes = cur_data_bytes[max_data_len:]  # Retain the remaining bytes for the next address range
-                if len(cur_data_bytes) >= 0:
-                    # Append a new address range with the remaining bytes
-                    addr_len_list.append((next_contig_addr, 0))
-    # Check that there are no remaining data bytes
-    if len(cur_data_bytes) > 0:
-        print(f"**** ERROR: There are {len(cur_data_bytes)} bytes remaining in cur_data_bytes, aborting! ****")
-        return False
-    # Check that all addresses in the addr_len_list are divisible by 8 bytes
+                # other record types
+                continue
+    # Final flush
+    flush_current()
+
+    # Sanity checks
     print(f"Sanity checking the .hex content...")
-    # check that the length of addr_len_list and data_list are the same
     if len(addr_len_list) != len(data_list):
         print(f"**** ERROR: Length of addr_len_list ({len(addr_len_list)}) does not match length of data_list ({len(data_list)}), aborting! ****")
         return False
-    # chech that no length in addr_len_list is 0
+
     for addr, length in addr_len_list:
         if length == 0:
             print(f"**** ERROR: Address {addr:#010x} has length 0, aborting! ****")
             return False
-    # check that the addresses are 8-byte aligned
-    for addr,length in addr_len_list:
         if addr % 8 != 0:
             print(f"**** ERROR: Address {addr:#010x} is not 8-byte aligned, aborting! ****")
             return False
-    # for i in range(len(addr_len_list)):
-    #    print(f"info: addr_len_list[{i}] = {addr_len_list[i]}")  # Print the address and length for each entry     
-    
-    # for any length in addr_len_list, if it is not divisible by 8 bytes, we need to
-    # pad the data in data_list with 0xff bytes to make it divisible by 8 bytes, and
-    # update the length in addr_len_list to be the padded length
-    for i in range(len(addr_len_list)):
-        addr, length = addr_len_list[i]
+
+    # pad to 8B if needed
+    for i, (addr, length) in enumerate(addr_len_list):
         if length % 8 != 0:
             padding_length = 8 - (length % 8)
-            # calculate address that needs padding
-            addr_pad_start = addr + length  # Start address for padding
-            addr_pad_stop = addr_pad_start + padding_length - 1  # Stop address for padding
+            addr_pad_start = addr + length
+            addr_pad_stop  = addr_pad_start + padding_length - 1
             print(f"Data length for Entry {i} is not divisible by 8, padding..")
             print(f"Padding Entry {i} with {padding_length} x '0xff' byte(s) at {addr_pad_start:#010x}-{addr_pad_stop:#010x}")
-            data_list[i] += bytearray([0xff] * padding_length)  # Pad with 0xff bytes
-            addr_len_list[i] = (addr, length + padding_length)  # Update the length
-    # Now we have addr_len_list and data_list ready, let's print all the details
-    # print the addr_len_list contents
-    i = 0
-    for addr, length in addr_len_list:
+            data_list[i] += bytearray([0xff] * padding_length)
+            addr_len_list[i] = (addr, length + padding_length)
+
+    for i, (addr, length) in enumerate(addr_len_list):
         print(f"  Addr/Len Entry {i}: Address: {addr:#010x}, Length: {length} bytes")
-        i += 1
-    # print the data_list contents
     for i, data in enumerate(data_list):
         print(f"  Data Entry {i}: Length: {len(data)} bytes, Content: {data.hex()}")
+
 
 def build_interim_array():
     """Build an interim file array from the address and data lists that came from the parsed hex file."""
@@ -416,6 +393,8 @@ def bootload_interim_array():
             return False
         print(f"Programming Data Entry {i}: Address: {addr:#010x}, Length: {data_length} bytes")
         build_packet(0x80, 0x20, addr.to_bytes(4, 'little') + data)  # Build the packet with address and data
+        # print the packet for debugging
+        print(f"Sending Program Data command: {data_packet.hex()}")
         ser.write(data_packet)  # Send the data packet
         result = mspm0_wait_response(1)  # wait 1 second, expect multiple bytes
         if result is None or len(result) < 10:
@@ -449,6 +428,10 @@ def bootload_interim_array():
         print("***** ERROR: Failed to start application on MSPM0 chip, exiting. ******")
         return False
     print("Application started on MSPM0 successfully")
+
+def read_chip_contents():
+    # not implemented yet
+    return True
 
 def sim_bsl_core_message(status_code):
     """Build a BSL Core Message with the given status code."""
@@ -592,17 +575,22 @@ def mspm0_wait_response(seconds, exp_bytes=0):
     """Wait for a response from the MSPM0 chip."""
     global ser
     response = bytearray()
-    print("Waiting for response from MSPM0 chip", end='', flush=True)
+    # print("Waiting for response from MSPM0 chip\n", end='', flush=True)
     unread_seconds = 0
+    dot_printed = False
     while True:
         byte = ser.read(1)
         if not byte:
             if len(response) > 0:  # If we have received some data
-                print("\n")
+                if dot_printed:
+                    print("\n")
                 return response
             # No data received, wait for a while
             unread_seconds += 1
+            if dot_printed == False:
+                print("Still waiting for response from MSPM0 chip", end='', flush=True)
             print('.', end='', flush=True)
+            dot_printed = True
             if unread_seconds > seconds:
                 print("\nNo response received from MSPM0 chip, giving up.")
                 return None
@@ -610,12 +598,14 @@ def mspm0_wait_response(seconds, exp_bytes=0):
             response.extend(byte)
             unread_seconds = 0
             if exp_bytes > 0 and len(response) >= exp_bytes:
-                print("\n")
+                if dot_printed:
+                    print("\n")
                 return response
             if exp_bytes == 0 and len(response) > 4:
                 length = int.from_bytes(response[2:4], 'little')
                 if len(response) >= length + 8:
-                    print("\n")
+                    if dot_printed:
+                        print("\n")
                     return response
 
 def set_rts_high():
@@ -707,6 +697,7 @@ def main():
     parser.add_argument('firmware', type=str, help='Firmware file to program [.hex or .flash] or "sim" to simulate BSL')
     parser.add_argument('--auto', action='store_true', help='Automatic mode, no prompt, requires DTR and RTS capability')
     parser.add_argument('--saveflashfile', action='store_true', help='Save a copy of firmware.flash converted from the .hex file')
+    parser.add_argument('--readchip', action='store_true', help='Read the chip contents and save to firmware_readback.hex file')
     args = parser.parse_args()
     if args.port:
         port = args.port
@@ -720,6 +711,14 @@ def main():
             print("Disabling rts_capability and dtr_capability since --auto option is not used.")
             rts_capability = False
             dtr_capability = False
+
+    # Read chip option
+    if args.readchip:
+        print("Reading chip contents...")
+        ser_open()
+        read_chip_contents()
+        ser_close()
+        return
 
     # Simulator mode
     if args.firmware.lower() == 'sim':
@@ -772,5 +771,4 @@ def main():
 # Run the main function
 if __name__ == "__main__":
     main()
-
 
