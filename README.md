@@ -6,7 +6,7 @@ KiCad files, and Gerber files are present for building a simple development boar
 
 The repository also contains Gerber files for a smaller miniL1105 board:
 
-<img width="100%" align="left" src="miniL1105-render-rev2.jpg">
+<img width="100%" align="left" src="miniL1105-render-rev2.png">
 
 There is also an example starter project, which can be built with Keil or GCC.
 
