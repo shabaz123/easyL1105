@@ -25,7 +25,7 @@ If you have a Rev 1 board, the fix is easy, it is possible to patch a resistor o
 The easyL1105 Rev 1 board allocates pins PA17(TXD) and PA18(RXD) for UART0, but since PA18(RXD) also has a BOOT function for enabling bootloader mode, there is the unfortunate situation that if the "BSL/UART0" board jumpers are configured to direct UART0 to the USB-UART chip, the pin is in BOOT mode during reset. One workaround for now is to not fit the rightmost jumper (rightmost when the "EasyL1105" and "BSL/UART0" text is the correct way up) during board reboot or power-up, and then fit it later. The better fix is in Rev 2, where a different GPIO pin (PA9) is used in place of PA18(RXD), so that it doesn't clash with the BOOT function
 
 # easyL1105 Parts List
-There is a PDF version of the parts list, easyL1105-rev1-parts-list.pdf reproduced here:
+NOTE: The parts lists in this repository are for the Rev 1 board. They need to be updated for Rev 2. However, it is easy to read off the schematic what parts are required. 
 
 | REF                | QTY | VALUE             | DESCRIPTION                                       |
 | ------------------ | --- | ----------------- | ------------------------------------------------- |
