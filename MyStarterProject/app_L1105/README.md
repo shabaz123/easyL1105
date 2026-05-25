@@ -1,9 +1,10 @@
-## Summary
+## Introduction
 
-MSPM0L1105 starter project with TI DriverLib support.
-[DriverLib](https://software-dl.ti.com/msp430/esd/MSPM0-SDK/latest/docs/english/driverlib/mspm0l11xx_l13xx_api_guide/html/modules.html) is a simple low-level API for accessing microcontroller integrated peripherals.
+This guide explains how to set up your PC (Windows/Mac/Linux) in order to build a simple MSPM0L1105 starter project.
 
-The starter project is called **app_L1105**. If (say) your project is about motor control, you could create a **motor_control** folder, and then drop the app_L1105 folder within it, and simply accept that the app_L1105 name will remain. If you don't want that, you'll have to rename the **app_L1105/keil/app_L1105.uvprojx** file, and also edit the contents of that file, and/or modify the **app_L1105/gcc/makefile** file, depending on if you're building with Keil, GCC, or both. I recommend you keep the app_L1105 name, and simply change the top-level folder name as mentioned.
+For ease of coding, this project uses [DriverLib](https://software-dl.ti.com/msp430/esd/MSPM0-SDK/latest/docs/english/driverlib/mspm0l11xx_l13xx_api_guide/html/modules.html) which is a simple low-level API for accessing microcontroller integrated peripherals.
+
+Note: The starter project is called **app_L1105**. If (say) your project is about motor control, you could create a **motor_control** folder, and then drop the app_L1105 folder within it, and simply accept that the app_L1105 name will remain. If you don't want that, you'll have to rename the **app_L1105/keil/app_L1105.uvprojx** file, and also edit the contents of that file, and/or modify the **app_L1105/gcc/makefile** file, depending on if you're building with Keil, GCC, or both. I recommend you keep the app_L1105 name, and simply change the top-level folder name as mentioned.
 
 ### Low-Power Recommendations
 TI recommends to terminate unused pins by setting the corresponding functions to
