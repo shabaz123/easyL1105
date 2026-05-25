@@ -1,5 +1,5 @@
 # easyL1105 - What is it?
-This repository contains resources for working with Texas Instruments MSPM0 microcontrollers, and in particular, the MSPM0L1105 Microcontroller.
+This repository contains resources for working with Texas Instruments MSPM0 microcontrollers, and in particular, the MSPM0L1105 microcontroller.
 KiCad files, and Gerber files are present for building a simple development board, called easyL1105. 
 
 <img width="100%" align="left" src="easyL1105-render-rev2.png">
