@@ -76,7 +76,7 @@ Create a development folder. I use a folder /home/MY_USER_NAME/development. Go t
 git clone https://github.com/TexasInstruments/mspm0-sdk.git
 ```
 
-Next, edit the MyStarterProject/set_env.sh file (you don't need to keep it at that folder, you can move that file to anywhere convenient) and ensure the paths in there are correct. There are two paths there, one for the ARM GNU Toolchain, and one for the MSPM0 SDK.
+Next, edit the [MyStarterProject/set_env.sh](https://github.com/shabaz123/easyL1105/blob/main/MyStarterProject/set_env.sh) file (you don't need to keep it at that folder, you can move that file to anywhere convenient) and ensure the paths in there are correct. There are two paths there, one for the ARM GNU Toolchain, and one for the MSPM0 SDK.
 
 Now, whenever you wish to work with the your projects, just remember to go to the folder containing set_env.sh, and type:
 
