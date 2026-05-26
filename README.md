@@ -12,10 +12,14 @@ There is also an example starter project, which can be built with Keil or GCC.
 
 # Circuit Diagrams
 ## easyL1105
-[<img width="100%" align="left" src="easyL1105_schematic_rev2.png">](easyL1105_schematic_rev2.pdf)
+<a href="easyL1105_schematic_rev2.pdf">
+  <img src="easyL1105_schematic_rev2.png" width="100%">
+</a>
 
 ## miniL1105
-[<img width="100%" align="left" src="miniL1105-schematic-rev2.png">](miniL1105-schematic-rev2.pdf)
+<a href="miniL1105-schematic-rev2.pdf">
+  <img src="miniL1105-schematic-rev2.png" width="100%">
+</a>
 
 ## Note for old Rev 1 Boards
 The Rev 1 boards had a known bug; they were missing a 47k pull-up resistor from the *RST pin (pin 6 on the microcontroller) to +3.3V. The newer Rev 2 boards do not have this issue.
