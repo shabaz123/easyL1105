@@ -12,10 +12,10 @@ There is also an example starter project, which can be built with Keil or GCC.
 
 # Circuit Diagrams
 ## easyL1105
-<img width="100%" align="left" src="easyL1105_schematic_rev2.png">
+[<img width="100%" align="left" src="easyL1105_schematic_rev2.png">](easyL1105_schematic_rev2.pdf)
 
 ## miniL1105
-<img width="100%" align="left" src="miniL1105-schematic-rev2.png">
+[<img width="100%" align="left" src="miniL1105-schematic-rev2.png">](miniL1105-schematic-rev2.pdf)
 
 ## Note for old Rev 1 Boards
 The Rev 1 boards had a known bug; they were missing a 47k pull-up resistor from the *RST pin (pin 6 on the microcontroller) to +3.3V. The newer Rev 2 boards do not have this issue.
@@ -133,4 +133,3 @@ If UniFlash output doesn't look similar to that shown above, repeat the steps st
 
 # Non-UniFlash Option: Python Programmer
 If you wish to use Python to program the chip rather than UniFlash, then see [the MSPM0 Programmer Python](https://github.com/shabaz123/easyL1105/tree/main/mspm0_programmer/python) folder.
-
