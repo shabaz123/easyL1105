@@ -755,10 +755,17 @@ def main():
             set_rts_low()  # assert the *RESET line (active low)
             # time.sleep(0.1)  # doesn't seem necessary
             set_rts_high()  # get out of reset
+# moved this further down, so that the *DTR line can also be used to 
+# route the UART signals using a SN74CBTLV3257PWR analog switch, for the
+# duration of the programming, which means no jumpers needed to be switched
+# when using the EasyL1105 board
+#        if dtr_capability:
+#            time.sleep(0.01)
+#            set_dtr_high()  #  deasserts BOOT (inverted by PNP transistor)
+        bootload_interim_array()  # Convert the interim array to bootloader commands and send to MSPM0 chip
         if dtr_capability:
             time.sleep(0.01)
             set_dtr_high()  #  deasserts BOOT (inverted by PNP transistor)
-        bootload_interim_array()  # Convert the interim array to bootloader commands and send to MSPM0 chip
         ser_close()
         if noprompt:
             stop_time = time.time()
