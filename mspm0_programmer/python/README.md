@@ -1,5 +1,5 @@
 # MSPM0 BSL Programmer
-This program can be used to program MSPM0L110x devices via USB Serial Bootloader (BSL). It has some advantages over TI UniFlash, specifically it's quicker, less bloated, and supports the ability to automatically boot/reset the target if the targer is the EasyL1105 board.
+This program can be used to program MSPM0L110x devices via USB Serial Bootloader (BSL). It has some advantages over TI UniFlash, specifically it's quicker, less bloated, and (if you're using an EasyL1105 board) supports the ability to automatically boot/reset the target.
 
 # Requirements:
 Python
