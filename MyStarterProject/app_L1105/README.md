@@ -102,7 +102,7 @@ Navigate to the **app_L1105** folder, and within that, go to the **GCC** folder.
 
 You'll see a **makefile** in there. Simply type: **make** and the code should build. To remove the outputs, type: **make clean**
 
-If you wish to build a Release version, type **make DEBUG=0" (you may need to type **make clean** first).
+If you wish to build a Release version, type **make DEBUG=0"** (you may need to type **make clean** first).
 
 ## Making use of Integrated Peripherals using TI SysConfig
 Although there is [DriverLib documentation](https://software-dl.ti.com/msp430/esd/MSPM0-SDK/latest/docs/english/driverlib/mspm0l11xx_l13xx_api_guide/html/modules.html) it's useful to auto-generate code, either to directly use, or to inspect and reuse as required, using a tool called [SysConfig](https://www.ti.com/tool/SYSCONFIG).
