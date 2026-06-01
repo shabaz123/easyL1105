@@ -1,3 +1,15 @@
+# Defaults to a Debug build
+# For Release building, user can specify DEBUG=0 when issuing the make command
+DEBUG ?= 1
+
+ifeq ($(DEBUG),1)
+    OPTFLAGS = -Og -g3 -gstrict-dwarf
+    BUILD_TYPE = Debug
+else
+    OPTFLAGS = -O2 -g -gstrict-dwarf
+    BUILD_TYPE = Release
+endif
+
 ifeq ("$(SHELL)","sh.exe")
 # for Windows/DOS shell
     RM     = del
@@ -25,7 +37,7 @@ HEX     := $(ELF:.out=.hex)
 CFLAGS = -I.. \
     -I. \
     -D__MSPM0L1105__ \
-    -O2 \
+    $(OPTFLAGS) \
     "-I$(MSPM0_SDK_INSTALL_DIR)/source/third_party/CMSIS/Core/Include" \
     "-I$(MSPM0_SDK_INSTALL_DIR)/source" \
     -mcpu=cortex-m0plus \
@@ -35,8 +47,6 @@ CFLAGS = -I.. \
     -mfloat-abi=soft \
     -ffunction-sections \
     -fdata-sections \
-    -g \
-    -gstrict-dwarf \
     -Wall \
     "-I$(GCC_ARMCOMPILER_MSP)/arm-none-eabi/include/newlib-nano" \
     "-I$(GCC_ARMCOMPILER_MSP)/arm-none-eabi/include"
@@ -56,7 +66,12 @@ LFLAGS = "-L$(MSPM0_SDK_INSTALL_DIR)/source/ti/driverlib/lib/gcc/m0p/mspm0l11xx_
     -lm \
     -lnosys \
     --specs=nano.specs
-all: $(ELF) $(HEX)
+all: banner $(ELF) $(HEX)
+
+banner:
+	@ echo ==========================================
+	@ echo Building $(BUILD_TYPE) version
+	@ echo ==========================================
 
 app_L1105.obj: ../main.c $(SYSCFG_H_FILES)
 	@ echo Building $@
