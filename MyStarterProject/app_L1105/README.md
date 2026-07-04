@@ -110,7 +110,7 @@ Although there is [DriverLib documentation](https://software-dl.ti.com/msp430/es
 Once you have installed SysConfig, start it up from the command line (for instance, using Windows Powershell), using the following syntax:
 
 ```
-C:\ti\sysconfig_1.24.2\sysconfig_gui.bat --product "C:/ti/mspm0_sdk_2_05_01_00/.metadata/product.json"  --device "MSPM0L1105" --package "VSSOP-28(DGS28)" --compiler gcc
+C:\ti\sysconfig_1.27.1\sysconfig_gui.bat --product "C:/ti/mspm0_sdk_2_10_00_04/.metadata/product.json"  --device "MSPM0L1105" --package "VSSOP-28(DGS28)" --compiler gcc
 ```
 
 When it starts up, you have to, very importantly, click on Board, so that a green check-mark appears against it. 
