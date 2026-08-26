@@ -758,7 +758,7 @@ def main():
 # moved this further down, so that the *DTR line can also be used to 
 # route the UART signals using a SN74CBTLV3257PWR analog switch, for the
 # duration of the programming, which means no jumpers needed to be switched
-# when using the EasyL1105 Rev 2.1 board
+# when using the EasyL1105 board
 #        if dtr_capability:
 #            time.sleep(0.01)
 #            set_dtr_high()  #  deasserts BOOT (inverted by PNP transistor)
@@ -772,6 +772,8 @@ def main():
             elapsed_time = stop_time - start_time
             print(f"Elapsed time: {elapsed_time:.2f} seconds")
         print("Programming complete.")
+        if dtr_capability:
+            set_dtr_high()  #  deasserts BOOT (inverted by PNP transistor)
         
         args.firmware = args.firmware[:-4] + '.flash'  # Change the extension to .flash
 
