@@ -15,8 +15,12 @@ Run the Python program using a command such as:
 ```
 python ./mspm0_prog.py --port COM15 myapp.hex
 ```
+or (the --auto used in this example is described further below)
+```
+py -3.14 mspm0_prog.py --port COM4 --auto .\myapp.hex
+```
 
-It will prompt you to hold down the BOOT button, press and release RESET, and then release the BOOT button. After that, follow the prompt and the new firmware should be programmed in seconds.
+If the --auto flag is not used, then the sofware will prompt you to hold down the BOOT button, press and release RESET, and then release the BOOT button. After that, follow the prompt and the new firmware should be programmed in seconds.
 
 When the Python code is run, in the background it is first internally converting the .hex file into an 'interim' format which I've called a .flash format, and then the Python code converts the .flash format into serial commands that the MSPM0 bootloader understands, sent over a USB UART adapter.
 
