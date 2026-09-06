@@ -5,6 +5,7 @@ This program can be used to program MSPM0L110x devices via USB Serial Bootloader
 Python
 
 pySerial:  pip install pyserial
+
 Rich UI:   pip install rich
 
 # How Does it Work?
