@@ -1,10 +1,11 @@
 # MSPM0 BSL Programmer
-This program can be used to program MSPM0L110x devices via USB Serial Bootloader (BSL). It has some advantages over TI UniFlash, specifically it's quicker, less bloated, and (if you're using an EasyL1105 board) supports the ability to automatically boot/reset the target.
+This program can be used to program MSPM0L110x devices via USB Serial Bootloader (BSL).
 
 # Requirements:
 Python
 
 pySerial:  pip install pyserial
+Rich UI:   pip install rich
 
 # How Does it Work?
 Compile/build your MSPM0 application as usual, until you have a .hex (Intel Hex format) file generated.
@@ -15,12 +16,8 @@ Run the Python program using a command such as:
 ```
 python ./mspm0_prog.py --port COM15 myapp.hex
 ```
-or (the --auto used in this example is described further below)
-```
-py -3.14 mspm0_prog.py --port COM4 --auto .\myapp.hex
-```
 
-If the --auto flag is not used, then the sofware will prompt you to hold down the BOOT button, press and release RESET, and then release the BOOT button. After that, follow the prompt and the new firmware should be programmed in seconds.
+It will prompt you to hold down the BOOT button, press and release RESET, and then release the BOOT button. After that, follow the prompt and the new firmware should be programmed in seconds.
 
 When the Python code is run, in the background it is first internally converting the .hex file into an 'interim' format which I've called a .flash format, and then the Python code converts the .flash format into serial commands that the MSPM0 bootloader understands, sent over a USB UART adapter.
 
